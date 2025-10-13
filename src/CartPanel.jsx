@@ -4,14 +4,9 @@ import React from 'react';
 import './index.css';
 
 const CartPanel = ({
-  isOpen,
-  onClose,
-  cart,
-  cartTotal,
-  increaseQuantity,
-  decreaseQuantity,
-  removeFromCart,
-  handlePurchase, // Renombramos para claridad
+  isOpen, onClose, cart, cartTotal, finalTotal, discount, couponApplied,
+  couponCode, setCouponCode, handleApplyCoupon,
+  increaseQuantity, decreaseQuantity, removeFromCart, handlePurchase,
 }) => {
   return (
     <div className={`cart-panel-overlay ${isOpen ? 'is-open' : ''}`} onClick={onClose}>
@@ -52,10 +47,40 @@ const CartPanel = ({
 
         {cart.length > 0 && (
           <div className="cart-panel-footer">
+            
+            {/* ======================================================= */}
+            {/* ===== AQUÍ ESTÁ EL CAMBIO: SECCIÓN CONDICIONAL ===== */}
+            {/* ======================================================= */}
+            {/* La sección del cupón solo se muestra si 'couponApplied' es false */}
+            {!couponApplied && (
+              <div className="coupon-section">
+                <input
+                  type="text"
+                  placeholder="Ingresa tu cupón"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                />
+                <button onClick={handleApplyCoupon}>
+                  Aplicar
+                </button>
+              </div>
+            )}
+
             <div className="cart-total-section">
-              <span>Total:</span>
-              <strong>${cartTotal.toLocaleString('es-AR')}</strong>
+              <span>Subtotal:</span>
+              <span>${cartTotal.toLocaleString('es-AR')}</span>
             </div>
+            {couponApplied && (
+              <div className="cart-total-section discount-applied">
+                <span>Descuento (10%):</span>
+                <span>- ${discount.toLocaleString('es-AR')}</span>
+              </div>
+            )}
+            <div className="cart-total-section final-total">
+              <strong>Total:</strong>
+              <strong>${finalTotal.toLocaleString('es-AR')}</strong>
+            </div>
+
             <button className="btn-agregar checkout-btn" onClick={handlePurchase}>
               Proceder al Pago
             </button>

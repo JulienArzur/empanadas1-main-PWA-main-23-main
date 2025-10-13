@@ -15,10 +15,7 @@ import SalesDashboard from './pages/admin/SalesDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './pages/admin/AdminLayout';
 import PromoModal from './PromoModal';
-
-// AÑADIDO: Importamos el nuevo panel del carrito.
 import CartPanel from './CartPanel';
-
 
 function App() {
   const [activePage, setActivePage] = useState('empanadas');
@@ -26,10 +23,7 @@ function App() {
     const storedCart = localStorage.getItem('cart');
     return storedCart ? JSON.parse(storedCart) : [];
   });
-  
-  // CAMBIO: Se renombra 'showCartDropdown' a 'isCartOpen' para que su función sea más clara.
   const [isCartOpen, setIsCartOpen] = useState(false);
-
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showCopySuccess, setShowCopySuccess] = useState(false);
   const navbarRef = useRef(null);
@@ -37,6 +31,10 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isPromoModalOpen, setIsPromoModalOpen] = useState(false);
   const [selectedPromo, setSelectedPromo] = useState(null);
+
+  const [couponCode, setCouponCode] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [couponApplied, setCouponApplied] = useState(false);
 
   useEffect(() => {
     const fetchProductsFromFirebase = async () => {
@@ -82,6 +80,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
+
+  // AÑADIDO: Este es el "vigilante" del descuento.
+  // Se ejecuta cada vez que el total del carrito cambia.
+  const cartTotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+  useEffect(() => {
+    if (couponApplied) {
+      const newDiscountAmount = cartTotal * 0.10;
+      setDiscount(newDiscountAmount);
+    }
+  }, [cartTotal, couponApplied]); // Vigila el total y si el cupón está aplicado
 
   const handlePagingClick = (page) => {
     setActivePage(page);
@@ -132,7 +140,10 @@ function App() {
 
   const clearCart = () => {
     setCart([]);
-    setIsCartOpen(false); // AÑADIDO: También cierra el panel al vaciar.
+    setIsCartOpen(false);
+    setDiscount(0);
+    setCouponApplied(false);
+    setCouponCode('');
   };
 
   const closePaymentModal = () => {
@@ -146,8 +157,23 @@ function App() {
       setTimeout(() => setShowCopySuccess(false), 2000);
     });
   };
+  
+  const finalTotal = cartTotal - discount;
 
-  const cartTotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+  const handleApplyCoupon = () => {
+    if (couponApplied) {
+      alert("Ya has aplicado un cupón en esta compra.");
+      return;
+    }
+    if (couponCode.toLowerCase() === 'expodescuento') {
+      const discountAmount = cartTotal * 0.10;
+      setDiscount(discountAmount);
+      setCouponApplied(true);
+      alert("¡Cupón del 10% aplicado con éxito!");
+    } else {
+      alert("El código del cupón no es válido.");
+    }
+  };
 
   const handlePurchaseAndStockUpdate = async () => {
     if (cart.length === 0) {
@@ -155,7 +181,7 @@ function App() {
       return;
     }
     
-    setIsCartOpen(false); // AÑADIDO: Cierra el panel del carrito al proceder al pago.
+    setIsCartOpen(false);
 
     const batch = writeBatch(db);
     cart.forEach(item => {
@@ -170,7 +196,9 @@ function App() {
       await addDoc(collection(db, "sales"), {
         createdAt: Timestamp.now(),
         items: cart,
-        total: cartTotal,
+        total: finalTotal,
+        discountApplied: couponApplied,
+        discountAmount: discount
       });
 
       setProducts(currentProducts => 
@@ -233,12 +261,17 @@ function App() {
           onAddToCart={handleAddPromoToCart}
         />
 
-        {/* AÑADIDO: El nuevo panel del carrito se renderiza aquí. */}
         <CartPanel
           isOpen={isCartOpen}
           onClose={() => setIsCartOpen(false)}
           cart={cart}
           cartTotal={cartTotal}
+          finalTotal={finalTotal}
+          discount={discount}
+          couponApplied={couponApplied}
+          couponCode={couponCode}
+          setCouponCode={setCouponCode}
+          handleApplyCoupon={handleApplyCoupon}
           increaseQuantity={increaseQuantity}
           decreaseQuantity={decreaseQuantity}
           removeFromCart={removeFromCart}
@@ -282,7 +315,6 @@ function App() {
                               <li className="tm-nav-li"><Link to="/contact" className="tm-nav-link">Contacto</Link></li>
                             </ul>
                             
-                            {/* CAMBIO: El ícono del carrito ahora solo abre el panel y ya no contiene el menú desplegable. */}
                             <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
                               <img src="/cart-icon.png" alt="Carrito" />
                               {cart.length > 0 && <span className="cart-count">{cart.reduce((total, item) => total + item.quantity, 0)}</span>}
@@ -382,7 +414,7 @@ function App() {
             <div className="payment-modal">
               <span className="close-modal-btn" onClick={closePaymentModal}>&times;</span>
               <h4 className="text-center">Detalles del Pago</h4>
-              <p>Monto Total: <strong>${cartTotal.toLocaleString('es-AR')}</strong></p>
+              <p>Monto Total: <strong>${finalTotal.toLocaleString('es-AR')}</strong></p>
               <hr />
               <div className="payment-details">
                 <p>Por favor, realiza la transferencia a los siguientes datos:</p>
@@ -395,7 +427,7 @@ function App() {
                   {showCopySuccess && <span className="copy-success-message">¡Copiado!</span>}
                 </div>
               </div>
-              <p className="text-center">Una vez realizado el pago, envíanos el comprobante por{' '}<a href={`https://wa.me/5493541230992?text=${encodeURIComponent(`Hola, realicé una compra en La Redonda Sabrosa.\nMonto: $${cartTotal.toLocaleString('es-AR')}\nProductos:\n${cart.map((item) => `- ${item.name} x${item.quantity} ($${item.price.toLocaleString('es-AR')})`).join('\n')}\nAlias de pago: laredonda.sabrosa`)}`} target="_blank" rel="noopener noreferrer" className="whatsapp-green" style={{ fontWeight: 'bold', textDecoration: 'none' }} onClick={handlePaymentConfirmation}>WhatsApp</a>.</p>
+              <p className="text-center">Una vez realizado el pago, envíanos el comprobante por{' '}<a href={`https://wa.me/5493541230992?text=${encodeURIComponent(`Hola, realicé una compra en La Redonda Sabrosa.\nMonto: $${finalTotal.toLocaleString('es-AR')}\nProductos:\n${cart.map((item) => `- ${item.name} x${item.quantity} ($${item.price.toLocaleString('es-AR')})`).join('\n')}\nAlias de pago: laredonda.sabrosa`)}`} target="_blank" rel="noopener noreferrer" className="whatsapp-green" style={{ fontWeight: 'bold', textDecoration: 'none' }} onClick={handlePaymentConfirmation}>WhatsApp</a>.</p>
               <div className="cart-buttons"><button className="btn-cerrar btn-cerrar:hover" onClick={closePaymentModal}>Cerrar</button></div>
             </div>
           </div>
