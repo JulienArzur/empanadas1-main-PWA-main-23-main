@@ -1,0 +1,1746 @@
+/* src/index.css */
+
+/*
+Simple House
+https://templatemo.com/tm-539-simple-house
+*/
+
+ul, nav, body, h1, h2, h4, h6, p, figure {
+  margin: 0;
+  padding: 0;
+}
+
+a, button { transition: all 0.3s ease; }
+
+/* Bootstrap grid system  */
+
+html {
+  box-sizing: border-box;
+  -ms-overflow-style: scrollbar;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.tm-container-inner,
+.tm-container-inner-2 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-left: -15px;
+  margin-right: -15px;
+}
+
+.col-lg-3,
+.col-lg-4,
+.col-lg-6,
+.col-md-4,
+.col-md-6,
+.col-sm-6,
+.col-12 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col-12 {
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 576px) {
+  .col-sm-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md-4 {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+
+  .col-md-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-3 {
+    -ms-flex: 0 0 25%;
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  .col-lg-4 {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+
+  .col-lg-6 {
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+/*
+  primary: #2D99CC
+  success: #319966
+  danger: #993332
+*/
+
+.tm-btn {
+  display: inline-block;
+  font-size: 1rem;
+  width: auto;
+  padding: 10px 30px;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+}
+
+.tm-btn-default {
+  border: 1px solid #ccc;
+  background-color: transparent;
+  color: #626364;
+}
+
+.tm-btn-default:hover,
+.tm-btn-default:focus {
+  color: white;
+  background-color: #cc942d;
+}
+
+.tm-btn-primary {
+  background-color: #cc942d;
+  color: white;
+}
+
+.tm-btn-primary:hover,
+.tm-btn-primary:focus {
+  background-color: #cc942d;
+}
+
+.tm-btn-success {
+  background-color: #cc942d;
+  color: white;
+}
+
+.tm-btn-success:hover,
+.tm-btn-success:focus {
+  background-color: #cc942d;
+}
+
+.tm-btn-danger {
+  background-color: #cc942d;
+  color: white;
+}
+
+.tm-btn-danger:hover,
+.tm-btn-danger:focus {
+  background-color: #752423;
+}
+
+.tm-mb-45 {
+  margin-bottom: 45px;
+}
+
+.tm-mb-p {
+    margin-bottom: 20px;
+}
+
+.tm-text-success {
+  color: #319966;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 17px;
+  background-color: #cc942d;
+  overflow-x: hidden;
+}
+
+.container {
+  background-color: white;
+}
+
+p, address {
+  color: #626364;
+  line-height: 1.8;
+}
+
+/* Set width and height in JS */
+.placeholder {
+  width: 100%;
+  min-height: 460px;
+  background-color: #cc942d;
+}
+
+.placeholder-2 {
+  width: 100%;
+  min-height: 220px;
+  background-color: #CFBEA5;
+  position: relative;
+  z-index: 998;
+}
+
+.parallax-window {
+  min-height: 460px;
+  background: transparent;
+  position: relative;
+}
+
+.parallax-window-2 {
+  min-height: 220px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background: transparent;
+  position: relative;
+}
+
+.parallax-mirror {
+  z-index: 999 !important;
+}
+
+.tm-header {
+    position: relative;
+    background-color: #cc942d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5); /* opcional */
+    margin-top: 0; /* Quitamos el margen superior extra */
+    padding-top: 1.5rem; /* Reducimos el padding superior */
+    padding-bottom: 1rem; /* Añadimos un pequeño padding inferior */
+}
+
+.tm-header-inner {
+    flex-direction: column;
+    align-items: center;
+    padding: 0; /* Quitamos el padding extra */
+}
+
+.tm-site-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 0.5rem; /* Reducimos el espacio debajo del logo */
+}
+
+.tm-site-text-box {
+  margin-top: 0px;
+  margin-bottom: 0.5rem; /* Reducimos el espacio debajo del texto */
+}
+
+.tm-site-title {
+    font-size: 2.5rem;
+    color: white;
+    margin: 0.25rem 0; /* Reducimos el margen vertical */
+}
+
+.tm-site-description {
+    font-size: 1.2rem;
+    color: white;
+    margin: 0; /* Sin margen extra */
+}
+
+.tm-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0; /* Reducimos el padding vertical */
+  margin-top: 0.5rem; /* Menos espacio arriba de la barra de navegación */
+}
+
+.tm-nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem; /* Menos espacio arriba de la navegación */
+}
+
+@media (max-width: 991px) {
+  .tm-header-inner {
+    padding: 30px 15px;
+  }
+}
+
+.tm-site-logo {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.tm-site-text-box {
+  display: inline-block;
+}
+
+.tm-site-title {
+  font-size: 2.2rem;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+
+.tm-site-description {
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.tm-nav {
+  text-align: right;
+  margin-top: 30px;
+}
+
+.tm-nav-ul {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.tm-nav-li {
+  list-style: none;
+  display: block;
+  margin-bottom: 0;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+@media (max-width: 991px) {
+  .tm-nav-li {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+.tm-nav-link {
+  color: white;
+  text-decoration: none;
+  padding-bottom: 10px;
+}
+
+.tm-nav-link.active,
+.tm-nav-link:hover {
+  border-bottom: 1px solid white;
+}
+
+.tm-welcome-section {
+  margin: 60px auto;
+  max-width: 655px;
+}
+
+.tm-section-title {
+  font-size: 2rem;
+  font-weight: 400;
+  margin-bottom: 30px;
+}
+
+.tm-gallery {
+  margin-bottom: 80px;
+}
+
+.tm-gallery-page {
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.tm-gallery-description {
+  font-size: 0.95rem;
+}
+
+.tm-section,
+.tm-container-inner,
+.tm-container-inner-2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .tm-gallery-page {
+    max-width: 560px;
+  }
+}
+
+/* Medium devices (tables, 768px and up) */
+@media (min-width: 768px) {
+  .tm-gallery-page,
+  .tm-section,
+  .tm-container-inner,
+  .tm-container-inner-2 {
+    max-width: 840px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .tm-gallery-page,
+  .tm-section {
+    max-width: 1120px;
+  }
+
+  .tm-container-inner {
+    max-width: 1120px;
+  }
+
+  .tm-container-inner-2 {
+    max-width: 900px;
+  }
+}
+
+.tm-gallery-item {
+  padding: 15px; /* Espaciado interno de la tarjeta */
+  margin: 15px; /* Agrega 15px de espacio alrededor de cada tarjeta */
+  border-radius: 10px; /* Esquinas redondeadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para un efecto 3D */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave para el efecto hover */
+}
+
+.tm-gallery-item:hover {
+  transform: translateY(-5px); /* Efecto de "levantar" la tarjeta al pasar el cursor */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el cursor */
+}
+
+/* Ajusta el contenedor principal para compensar el nuevo margen */
+.tm-gallery.row {
+  margin-left: -15px;
+  margin-right: -15px;
+  justify-content: center;
+}
+  
+.tm-gallery-img {
+  margin-bottom: 20px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+
+
+.tm-salsa{ /* Este estilo no es necesario si usas el mismo GalleryItem, es de tu CSS original */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  padding: 0 2rem;
+    margin-bottom: 20px;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.tm-gallery-title {
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #cc942d;
+  margin-bottom: 15px;
+}
+
+.tm-gallery-description {
+  margin-bottom: 20px;
+}
+
+.tm-gallery-price {
+  font-size: 1.25rem;
+  color: #2F956D;
+  margin-bottom: 60px;
+}
+
+.tm-paging-links {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.tm-paging-item {
+  list-style: none;
+  display: inline-block;
+  background-color: #cf9120;
+  border: 1px solid #cf9120;
+  margin: 7px;
+}
+
+.tm-paging-link {
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: transparent;
+}
+
+.tm-paging-link.active,
+.tm-paging-link:hover {
+  background-color: #cc942d;
+  color: white;
+}
+
+.tm-description-figure {
+  text-align: center;
+}
+
+.tm-description-box {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tm-description-box {
+  padding-left: 0;
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  max-width: 530px;
+}
+
+@media (min-width: 768px) {
+  .tm-description-box {
+    padding-left: 5px;
+    padding-right: 40px;
+    margin-top: 0;
+  }
+}
+
+.tm-right {
+  align-self: flex-end;
+}
+
+.tm-footer {
+  padding: 25px 15px;
+  margin-top: 40px;
+}
+
+.tm-footer a {
+  color: #626364;
+  text-decoration: none;
+}
+
+.tm-footer a:hover {
+  color: #1A6692;
+}
+
+/* About */
+.tm-persons {
+  margin-bottom: 20px;
+}
+
+.tm-person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+@media (min-width: 420px) {
+  .tm-person {
+    flex-direction: row;
+  }
+}
+
+.tm-person-description {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.tm-person-name {
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #09C;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
+
+@media (min-width: 420px) {
+  .tm-person-name {
+    margin-top: 0;
+  }
+}
+
+.tm-person-title {
+  color: #C39;
+  margin-bottom: 20px;
+}
+
+.tm-person-about {
+  margin-bottom: 20px;
+}
+
+.tm-social-link {
+  color: #626364;
+  display: inline-block;
+  border-radius: 1px;
+  background-color: transparent;
+  font-size: 1.3rem;
+  text-decoration: none;
+  width: 40px;
+  height: 40px;
+  margin-right: 0;
+  margin-bottom: 15px;
+}
+
+.tm-social-link:hover {
+  color: white;
+  background-color: #626364;
+}
+
+.tm-social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.tm-feature {
+  text-align: center;
+  padding: 45px 20px;
+}
+
+.tm-feature-icon {
+  color: #9f9c9c;
+  margin-bottom: 65px;
+}
+
+.tm-feature-description {
+  margin-bottom: 35px;
+  font-size: 1rem;
+}
+
+.tm-features {
+  margin-top: 35px;
+}
+
+.tm-history {
+  margin-top: 45px;
+}
+
+.tm-history-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.tm-history-img {
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+ .tm-history-img {
+    max-width: 50%;
+  }
+
+  .tm-history-inner {
+    flex-direction: row;
+  }
+}
+
+.tm-history-title {
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: #1A6692;
+  margin-bottom: 30px;
+}
+
+.tm-history-text {
+  max-width: 480px;
+  margin: 15px auto 0;
+}
+
+.tm-history-description {
+  margin-bottom: 40px;
+}
+
+@media (min-width: 768px) {
+ .tm-history-text {
+    max-width: auto;
+    margin: 0 auto 0 35px;
+  }
+}
+
+/* Contact Page */
+.tm-contact-form {
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+ .tm-contact-form {
+    max-width: 310px;
+  }
+}
+
+.tm-d-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.tm-btn-right {
+  align-self: flex-end;
+}
+
+.form-group {
+  margin-bottom: 30px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #626364;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-right: 0;
+  border-top: 0;
+  border-left: 0;
+  border-radius: 0;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control::-ms-expand {
+  background-color: transparent;
+  border: 0;
+}
+
+.form-control:focus {
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-control::-webkit-input-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control::-moz-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control:-ms-input-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control::-ms-input-placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.form-control::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.tm-info-title {
+  font-size: 1.6rem;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+address {
+  font-style: normal;
+  margin-bottom: 50px;
+}
+
+.tm-address-box {
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+ .tm-address-box {
+    max-width: 315px;
+  }
+}
+
+.tm-contact-icon {
+  display: inline-block;
+  margin-right: 25px;
+  color: #319966;
+}
+
+.tm-contact-link {
+  display: inline-block;
+  color: #626364;
+  margin-bottom: 25px;
+  text-decoration: none;
+}
+
+.tm-contact-social {
+  margin-top: 10px;
+}
+
+.tm-map {
+  max-width: 900px;
+  height: 450px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tm-map iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.tm-contact-section {
+  padding-bottom: 30px;
+}
+
+.tm-map-section {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.tm-info-section {
+  padding-top: 30px;
+}
+
+.tm-faq {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tm-accordion {
+  padding-top: 40px;
+}
+
+/* https://www.w3schools.com/howto/howto_js_accordion.asp */
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  font-size: 1.2rem;
+  font-family: 'Open Sans', Helevetica, Arial, sans-serif;
+  color: #999;
+  background-color: transparent;
+  border: 1px solid #d0d0d0;
+  margin-bottom: 17px;
+  margin-top: 17px;
+  cursor: pointer;
+  padding: 10px 20px 6px;
+  width: 100%;
+  text-align: left;
+  outline: none;
+  transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.accordion.active, .accordion:hover {
+  color: #09C;
+}
+
+@keyframes changeIcon {
+  0% {
+    content: '\f0d9';
+  }
+  50% {
+    color: white;
+  }
+  100% {
+    content: "\f0d7";
+  }
+}
+
+@keyframes changeIconBack {
+  0% {
+    content: '\f0d7';
+  }
+  50% {
+    color: white;
+  }
+  100% {
+    content: "\f0d9";
+  }
+}
+
+.accordion:after {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  animation: changeIconBack 0.3s linear;
+  content: '\f0d9';
+  font-size: 2rem;
+  color: #999;
+  float: right;
+  margin-left: 5px;
+}
+
+.accordion.active:after {
+  animation: changeIcon 0.3s linear;
+  content: '\f0d7';
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.panel p {
+  padding: 5px 20px 30px;
+}
+.tm-header {
+    position: relative;
+    background-color: #cc942d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5); /* opcional */
+    margin-top: 0; /* Quitamos el margen superior extra */
+    padding-top: 1.5rem; /* Reducimos el padding superior */
+    padding-bottom: 1rem; /* Añadimos un pequeño padding inferior */
+}
+
+
+.tm-header-inner {
+    flex-direction: column;
+    align-items: center;
+    padding: 0; /* Quitamos el padding extra */
+}
+
+.tm-site-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 0.5rem; /* Reducimos el espacio debajo del logo */
+}
+
+.tm-site-text-box {
+  margin-top: 0px;
+  margin-bottom: 0.5rem; /* Reducimos el espacio debajo del texto */
+}
+
+.tm-site-title {
+    font-size: 2.5rem;
+    color: white;
+    margin: 0.25rem 0; /* Reducimos el margen vertical */
+}
+
+.tm-site-description {
+    font-size: 1.2rem;
+    color: white;
+    margin: 0; /* Sin margen extra */
+}
+
+.tm-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0; /* Reducimos el padding vertical */
+  margin-top: 0.5rem; /* Menos espacio arriba de la barra de navegación */
+}
+
+.tm-nav {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem; /* Menos espacio arriba de la navegación */
+}
+
+/* --- Responsive navbar for mobile --- */
+@media (max-width: 600px) {
+  .tm-header-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 0;
+    gap: 0;
+  }
+  .tm-nav-ul {
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    align-items: stretch;
+    padding: 0;
+    margin: 0;
+  }
+  .tm-nav-li {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #fff2;
+  }
+  .tm-nav-li:last-child {
+    border-bottom: none;
+  }
+  .tm-nav-link {
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    font-size: 1.15rem;
+    color: white;
+    background: none;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+  }
+  .tm-nav-link.active,
+  .tm-nav-link:hover {
+    background-color: #cc942d;
+    color: #fff;
+    border-bottom: none;
+  }
+  /* Asegura que el carrito no tape el navbar */
+  .cart-icon {
+    top: 10px;
+    right: 10px;
+    z-index: 2001;
+  }
+}
+
+.btn-agregar {
+  background-color: #cf9120;
+  color: white;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: -40px;
+  margin-bottom: 20px;
+}
+
+.btn-agregar:hover {
+  background-color: #b5791b;
+}
+
+.tm-paging-item:hover .tm-paging-link { /* Corregido para aplicar el hover al link */
+  background-color: #b5791b;
+}
+
+.cart-icon img {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cart-icon img:hover {
+  transform: scale(1.1);
+}
+.tm-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+}
+
+.tm-nav-ul {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tm-nav-li {
+  margin: 0;
+}
+
+.tm-nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  position: relative;
+}
+
+.tm-nav-link.active::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: white;
+  margin-top: 4px;
+}
+
+.cart-icon-inline img { /* Este estilo parece no usarse directamente */
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cart-icon-inline img:hover { /* Este estilo parece no usarse directamente */
+  transform: scale(1.1);
+}
+.cart-icon {
+  position: relative; /* Añadido para posicionar el contador */
+  margin-left: auto;
+}
+
+/* Estilos para el contador del carrito */
+.cart-icon .cart-count {
+  position: absolute;
+  top: -5px; /* Ajusta para posicionar el contador */
+  right: -5px; /* Ajusta para posicionar el contador */
+  background-color: #e74c3c; /* Color de fondo del contador */
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  line-height: 1;
+  min-width: 18px; /* Asegura que sea circular */
+  text-align: center;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+  z-index: 2; /* Para que esté por encima del ícono */
+}
+
+/* Nuevo estilo para el carrito desplegable */
+.cart-dropdown {
+  position: absolute;
+  top: 100%; /* Debajo del ícono del carrito */
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 350px; /* Ancho del desplegable */
+  z-index: 1001; /* Asegura que esté por encima de otros elementos */
+  padding: 15px;
+  color: #333; /* Color de texto para el contenido del carrito */
+}
+
+.cart-dropdown h4 {
+  margin-bottom: 15px;
+  color: #cc942d;
+}
+
+.cart-dropdown p {
+  color: #666;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.cart-table th, .cart-table td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.cart-table th {
+  color: #555;
+  font-weight: bold;
+}
+
+.cart-item-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quantity-controls button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 2px 8px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+
+.quantity-controls button:hover {
+  background-color: #e0e0e0;
+}
+
+.remove-item-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.remove-item-btn:hover {
+  background-color: #c0392b;
+}
+
+.cart-total {
+  text-align: right;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 15px;
+  color: #cc942d;
+}
+
+.cart-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.cart-actions .btn-agregar {
+  margin-top: 0; /* Anula el margin-top de btn-agregar general */
+  width: 48%; /* Para que los botones se distribuyan */
+  padding: 10px 15px;
+  font-size: 1rem;
+  text-align: center;
+}
+/* src/index.css */
+
+/* ... (existing styles) ... */
+
+/* Payment Modal Styles */
+.payment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; /* Asegura que esté por encima de todo */
+}
+
+.payment-modal {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+}
+
+.payment-modal h3 {
+  color: #cc942d;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+.payment-modal p {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.payment-modal .mp-alias {
+  font-size: 1.3rem;
+  color: #2F956D; /* Un color que resalte el alias */
+  margin-bottom: 20px;
+  word-break: break-all; /* Para evitar desbordamiento en nombres largos */
+}
+
+.payment-modal .whatsapp-number a {
+  color: #25d366; /* Color de WhatsApp */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.payment-modal .whatsapp-number a:hover {
+  text-decoration: underline;
+}
+
+.btn-close-modal {
+  background-color: #cf9120;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 1rem;
+}
+
+.btn-close-modal:hover {
+  background-color: #b5791b;
+}
+/* --- Centering the Main Contact Section Title --- */
+.tm-section-title {
+  text-align: center; /* Ensures the "Contáctanos" title is centered */
+  margin-bottom: 40px; /* Adds space below the title */
+}
+
+/* --- Centering the Contact Info Row --- */
+.tm-contact-section {
+  display: flex;
+  justify-content: center; /* Centers the columns horizontally within the row */
+  align-items: flex-start; /* Aligns items to the start vertically (top) */
+  flex-wrap: wrap; /* Allows columns to stack on smaller screens */
+  margin-bottom: 50px; /* Space before the map section */
+}
+
+/* --- Centering content within the address column --- */
+/* Assuming 'alling-center' is meant to be 'align-center' or a custom class for alignment */
+.alling-center { /* Please double-check this class name in your HTML, maybe it's a typo for `align-items-center` if using Bootstrap */
+  display: flex;
+  flex-direction: column; /* Stack items vertically within this column */
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally (like the address box) */
+  height: 100%; /* Ensure it takes full height of the column to center vertically */
+  text-align: center; /* For text and inline elements inside */
+}
+
+/* --- Specific styling and centering for the address box --- */
+.tm-address-box {
+  max-width: 400px; /* Prevents the address box from getting too wide */
+  width: 100%; /* Ensures it takes full width up to max-width */
+  padding: 30px;
+  background-color: #f8f9fa; /* Light background for the box */
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* If you use margin: auto here, it would be relative to the .alling-center's centering */
+}
+
+.tm-info-title {
+  color: #007bff; /* Example color */
+  margin-bottom: 20px;
+}
+
+address {
+  margin-bottom: 15px;
+  font-style: normal; /* Removes default italic style for address */
+  line-height: 1.6;
+}
+
+.tm-contact-link {
+  display: block; /* Make links block-level to stack them */
+  margin-bottom: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+.tm-contact-icon {
+  margin-right: 10px;
+  color: #007bff; /* Example icon color */
+}
+
+/* --- Centering Social Media Icons --- */
+.tm-contact-social {
+  display: flex;
+  justify-content: center; /* Centers the social icons horizontally */
+  gap: 20px; /* Space between icons */
+  margin-top: 25px;
+}
+
+.tm-social-link {
+  font-size: 28px; /* Larger icons */
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.tm-social-link:hover {
+  color: #007bff; /* Hover effect */
+}
+
+/* --- Centering the Google Map --- */
+.tm-map-section {
+  display: flex;
+  justify-content: center; /* Centers the map container horizontally */
+  width: 100%; /* Ensure it takes full width to allow centering */
+  padding: 0 15px; /* Add some horizontal padding to match container */
+}
+
+.tm-map {
+  width: 100%; /* Ensure the map div fills its container */
+  max-width: 900px; /* Set a maximum width for the map for larger screens */
+  height: 450px; /* Fixed height for the map */
+  border-radius: 10px; /* Rounded corners for the map */
+  overflow: hidden; /* Hides any overflow from the iframe's border-radius */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow for the map */
+}
+
+.tm-map iframe {
+  width: 100%; /* Make iframe fill its parent's width */
+  height: 100%; /* Make iframe fill its parent's height */
+  display: block; /* Ensures no extra space below the iframe */
+  border: none; /* Removes default iframe border */
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .tm-contact-section {
+    flex-direction: column; /* Stack columns vertically on small screens */
+    align-items: center; /* Center stacked columns */
+  }
+
+  .col-md-6 {
+    width: 100%; /* Make columns full width on small screens */
+    margin-bottom: 30px; /* Add space between stacked columns */
+  }
+
+  .tm-contact-section .col-md-6:first-child {
+    margin-bottom: 30px; /* Adjust if your first column has content */
+  }
+
+  .tm-address-box {
+    margin: 0 auto; /* Re-center address box if not handled by flexbox */
+  }
+}
+
+.payment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+}
+
+.payment-modal {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #888;
+}
+
+.payment-details p {
+  margin-bottom: 10px;
+}
+
+.copy-alias-btn img {
+  width: 20px;
+  height: 20px;
+  filter: invert(1);
+}
+
+.copy-success-message {
+  color: #319966;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.btn-cerrar {
+  background-color: #cf9120;
+  color: white;
+  padding: 6px 12px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.btn-cerrar:hover {
+  background-color: #b5791b;
+}
+
+.whatsapp-green {
+  color: #25D366; /* Color de la marca WhatsApp */
+  font-weight: bold;
+}
+
+/* src/index.css */
+
+/* ... Código anterior ... */
+
+.alias-info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 15px 0 10px;
+}
+
+.alias-label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.alias-group {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre el alias y el botón */
+}
+
+.alias-text {
+  font-size: 1.2rem;
+  color: #007bff;
+  font-weight: bold; /* Para que la negrita se mantenga */
+}
+
+.copy-alias-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copy-alias-btn img {
+
+  width: 24px;
+  height: auto;
+}
+
+.copy-alias-btn:hover {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+/* ... Código posterior ... */
+
+/* src/index.css */
+
+/* Estilos para que el carrito esté fijo en la esquina superior derecha */
+.cart-icon {
+  position: fixed; /* Esto lo saca del flujo normal y lo mantiene fijo */
+  top: 20px;       /* Distancia desde el borde superior */
+  right: 20px;     /* Distancia desde el borde derecho */
+  z-index: 1002;   /* Asegura que el carrito esté por encima de otros elementos */
+  cursor: pointer;
+  transition: transform 0.3s ease; /* Transición para un efecto suave al pasar el cursor */
+}
+
+/* Efecto al pasar el cursor sobre el ícono */
+.cart-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Estilos para el ícono dentro del botón */
+.cart-icon img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Ajustes para el menú desplegable del carrito */
+.cart-dropdown {
+  position: absolute;
+  top: 100%;       /* Aparece justo debajo del ícono */
+  right: 0;        /* Alineado a la derecha del ícono */
+  width: 350px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 15px;
+  z-index: 1003;
+  /* Añadido para evitar overflow en móviles */
+  max-width: 95vw;
+  min-width: 240px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
+/* --- Responsive adjustments for cart icon and dropdown --- */
+@media (max-width: 600px) {
+  .cart-icon {
+    top: 10px;
+    right: 10px;
+    /* Asegura que el icono nunca se salga de la pantalla */
+    transform: none !important;
+  }
+  .cart-icon img {
+    width: 32px;
+    height: 32px;
+  }
+  /* Carrito tipo modal centrado y ancho casi total */
+  .cart-dropdown {
+    position: fixed;
+    top: 60px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 96vw;
+    min-width: 0;
+    max-width: 96vw;
+    border-radius: 12px;
+    padding: 10px 2vw;
+    box-sizing: border-box;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 2000;
+  }
+  /* Tabla apilada, no horizontal */
+  .cart-table,
+  .cart-table thead,
+  .cart-table tbody,
+  .cart-table tr {
+    display: block;
+    width: 100%;
+  }
+  .cart-table thead {
+    display: none;
+  }
+  .cart-table tr {
+    margin-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+  .cart-table td {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    font-size: 1rem;
+    padding: 4px 0;
+    border: none;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .cart-item-img {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+  }
+  .quantity-controls {
+    gap: 4px;
+  }
+  .cart-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cart-actions .btn-agregar {
+    width: 100%;
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+  .cart-total {
+    font-size: 1.1rem;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+}
+
+/* Evita desplazamiento horizontal global en móviles */
+@media (max-width: 600px) {
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+  }
+  .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 600px) {
+  .tm-header-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center; /* 🔹 Esto alinea verticalmente carrito y links */
+    padding: 6px 10px;
+  }
+
+  .tm-nav-ul {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+
+  .tm-nav-li {
+    padding: 0;
+    margin: 0;
+  }
+
+  .tm-nav-link {
+    font-size: 0.9rem;
+    padding: 4px;
+  }
+
+  .cart-icon {
+    position: relative; /* En la misma línea */
+    display: flex;
+    align-items: center; /* Centra verticalmente */
+    margin-left: 1rem;
+  }
+
+  .cart-icon img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .cart-icon.fixed-mobile {
+    position: fixed;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border-radius: 50%;
+    padding: 2px;
+    box-shadow: none;
+    z-index: 2000;
+  }
+}

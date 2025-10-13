@@ -1,0 +1,36 @@
+{
+  "name": "La Redonda Sabrosa",
+  "short_name": "RedondaSabrosa",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#cc942d",
+  "theme_color": "#cc942d",
+  "description": "Las empanadas más ricas de Villa Carlos Paz.",
+  "icons": [
+    {
+      "src": "/image-removebg-preview.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/image-removebg-preview.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshots/mobile.png",
+      "sizes": "375x667",
+      "type": "image/png"
+    }
+  ]
+}
