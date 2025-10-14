@@ -28,6 +28,10 @@ const CartPanel = ({
                     <td>
                       {item.name}
                       {item.isPromo && <span className="cart-item-details">{item.details}</span>}
+                      
+                      {/* AÑADIDO: Muestra una etiqueta si el producto vino de un QR */}
+                      {item.isDiscounted && <span className="discount-tag">10% OFF (QR)</span>}
+
                     </td>
                     <td>
                       <div className="quantity-controls">
@@ -47,11 +51,6 @@ const CartPanel = ({
 
         {cart.length > 0 && (
           <div className="cart-panel-footer">
-            
-            {/* ======================================================= */}
-            {/* ===== AQUÍ ESTÁ EL CAMBIO: SECCIÓN CONDICIONAL ===== */}
-            {/* ======================================================= */}
-            {/* La sección del cupón solo se muestra si 'couponApplied' es false */}
             {!couponApplied && (
               <div className="coupon-section">
                 <input

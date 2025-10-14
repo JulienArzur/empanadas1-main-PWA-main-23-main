@@ -17,6 +17,10 @@ import AdminLayout from './pages/admin/AdminLayout';
 import PromoModal from './PromoModal';
 import CartPanel from './CartPanel';
 
+// AÑADIDO: Importamos el nuevo componente de escáner.
+import QRScanner from './QRScanner';
+
+
 function App() {
   const [activePage, setActivePage] = useState('empanadas');
   const [cart, setCart] = useState(() => {
@@ -31,10 +35,12 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isPromoModalOpen, setIsPromoModalOpen] = useState(false);
   const [selectedPromo, setSelectedPromo] = useState(null);
-
   const [couponCode, setCouponCode] = useState('');
   const [discount, setDiscount] = useState(0);
   const [couponApplied, setCouponApplied] = useState(false);
+
+  // AÑADIDO: Estado para controlar la visibilidad del escáner QR.
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   useEffect(() => {
     const fetchProductsFromFirebase = async () => {
@@ -81,15 +87,13 @@ function App() {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
-  // AÑADIDO: Este es el "vigilante" del descuento.
-  // Se ejecuta cada vez que el total del carrito cambia.
   const cartTotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
   useEffect(() => {
     if (couponApplied) {
       const newDiscountAmount = cartTotal * 0.10;
       setDiscount(newDiscountAmount);
     }
-  }, [cartTotal, couponApplied]); // Vigila el total y si el cupón está aplicado
+  }, [cartTotal, couponApplied]);
 
   const handlePagingClick = (page) => {
     setActivePage(page);
@@ -113,8 +117,8 @@ function App() {
 
   const increaseQuantity = (id) => {
     const itemInCart = cart.find(cartItem => cartItem.id === id);
-    if (itemInCart && itemInCart.isPromo) {
-        alert("Para cambiar la promo, elimínala y vuelve a agregarla.");
+    if (itemInCart && (itemInCart.isPromo || itemInCart.isDiscounted)) {
+        alert("Para cambiar este item, elimínalo y vuelve a agregarlo.");
         return;
     }
     const productInStock = products.find(p => p.id === id);
@@ -127,7 +131,7 @@ function App() {
 
   const decreaseQuantity = (id) => {
     const itemInCart = cart.find(cartItem => cartItem.id === id);
-    if (itemInCart && itemInCart.isPromo && itemInCart.quantity === 1) {
+    if (itemInCart && (itemInCart.isPromo || itemInCart.isDiscounted)) {
         setCart(prevCart => prevCart.filter(item => item.id !== id));
         return;
     }
@@ -180,39 +184,29 @@ function App() {
       alert("Tu carrito está vacío.");
       return;
     }
-    
     setIsCartOpen(false);
-
     const batch = writeBatch(db);
     cart.forEach(item => {
       if (!item.isPromo) {
-        const productRef = doc(db, "products", item.id);
+        const originalProductId = item.isDiscounted ? item.id.split('-')[0] : item.id;
+        const productRef = doc(db, "products", originalProductId);
         batch.update(productRef, { stock: increment(-item.quantity) });
       }
     });
-
     try {
       await batch.commit();
       await addDoc(collection(db, "sales"), {
-        createdAt: Timestamp.now(),
-        items: cart,
-        total: finalTotal,
-        discountApplied: couponApplied,
-        discountAmount: discount
+        createdAt: Timestamp.now(), items: cart, total: finalTotal,
+        discountApplied: couponApplied, discountAmount: discount
       });
-
       setProducts(currentProducts => 
         currentProducts.map(p => {
-          const itemInCart = cart.find(item => item.id === p.id && !item.isPromo);
-          if (itemInCart) {
-            return { ...p, stock: p.stock - itemInCart.quantity };
-          }
+          const itemInCart = cart.find(item => (item.isDiscounted ? item.id.split('-')[0] : item.id) === p.id && !item.isPromo);
+          if (itemInCart) { return { ...p, stock: p.stock - itemInCart.quantity }; }
           return p;
         })
       );
-      
       setShowPaymentModal(true);
-      
     } catch (error) {
       console.error("Error al procesar la compra: ", error);
       alert("Hubo un problema al procesar tu pedido. Por favor, intenta de nuevo.");
@@ -230,21 +224,30 @@ function App() {
   };
 
   const handleAddPromoToCart = (promo, selection) => {
-    const promoDetails = Object.entries(selection)
-      .filter(([, quantity]) => quantity > 0)
-      .map(([name, quantity]) => `${name} x${quantity}`)
-      .join(', ');
-
+    const promoDetails = Object.entries(selection).filter(([, quantity]) => quantity > 0).map(([name, quantity]) => `${name} x${quantity}`).join(', ');
     const promoInCart = {
-      id: `${promo.name}-${Date.now()}`,
-      name: promo.name,
-      price: promo.price,
-      quantity: 1,
-      details: promoDetails,
-      isPromo: true,
-      image: '/image-removebg-preview.png'
+      id: `${promo.name}-${Date.now()}`, name: promo.name, price: promo.price,
+      quantity: 1, details: promoDetails, isPromo: true, image: '/image-removebg-preview.png'
     };
     setCart(prevCart => [...prevCart, promoInCart]);
+  };
+
+  // AÑADIDO: Nueva función que se ejecuta cuando el escáner detecta un QR.
+  const handleScan = (productId) => {
+    setIsScannerOpen(false);
+    const product = products.find(p => p.id === productId);
+    if (product) {
+      const discountedPrice = product.price * 0.90;
+      const itemInCart = {
+        ...product, id: `${product.id}-${Date.now()}`,
+        originalPrice: product.price, price: discountedPrice,
+        quantity: 1, isDiscounted: true,
+      };
+      setCart(prevCart => [...prevCart, itemInCart]);
+      setIsCartOpen(true);
+    } else {
+      alert("Producto no encontrado. El código QR no es válido.");
+    }
   };
 
   const empanadasData = Array.isArray(products) ? products.filter(item => item.category === 'empanadas') : [];
@@ -260,7 +263,6 @@ function App() {
           empanadas={empanadasData}
           onAddToCart={handleAddPromoToCart}
         />
-
         <CartPanel
           isOpen={isCartOpen}
           onClose={() => setIsCartOpen(false)}
@@ -277,6 +279,13 @@ function App() {
           removeFromCart={removeFromCart}
           handlePurchase={handlePurchaseAndStockUpdate}
         />
+        
+        {/* AÑADIDO: Renderizado del nuevo escáner QR. */}
+        <QRScanner
+          isOpen={isScannerOpen}
+          onClose={() => setIsScannerOpen(false)}
+          onScan={handleScan}
+        />
 
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -288,7 +297,6 @@ function App() {
               </Routes>
             </ProtectedRoute>
           } />
-
           <Route path="*" element={
             <div className="container">
               <div>
@@ -306,7 +314,6 @@ function App() {
                             <h6 className="tm-site-description">Por la pelota y la Empanada.</h6>
                           </div>
                         </div>
-
                         <div className="col-12">
                           <div className="tm-header-bar" ref={navbarRef}>
                             <ul className="tm-nav-ul centered-nav">
@@ -314,6 +321,11 @@ function App() {
                               <li className="tm-nav-li"><Link to="/about" className="tm-nav-link">Sobre Nosotros</Link></li>
                               <li className="tm-nav-li"><Link to="/contact" className="tm-nav-link">Contacto</Link></li>
                             </ul>
+                            
+                            {/* AÑADIDO: Botón para abrir el escáner QR. */}
+                            <button className="scan-qr-btn" onClick={() => setIsScannerOpen(true)}>
+                              <i className="fas fa-qrcode"></i>
+                            </button>
                             
                             <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
                               <img src="/cart-icon.png" alt="Carrito" />
@@ -326,7 +338,6 @@ function App() {
                   </div>
                 </div>
               </div>
-
               <main>
                 <Routes>
                   <Route path="/" element={
@@ -335,7 +346,6 @@ function App() {
                         <h2 className="col-12 text-center tm-section-title">Bienvenido a La Redonda Sabrosa</h2>
                         <p className="col-12 text-center">El lugar donde encontraras las empanadas mas ricas de Villa Carlos Paz.</p>
                       </header>
-
                       <div className="promo-section">
                         <h2 className="col-12 text-center tm-section-title promo-title">Promociones del Día</h2>
                         <div className="promo-cards-container">
@@ -363,7 +373,6 @@ function App() {
                           </div>
                         </div>
                       </div>
-
                       <div className="tm-paging-links">
                         <nav>
                           <ul>
@@ -372,7 +381,6 @@ function App() {
                           </ul>
                         </nav>
                       </div>
-
                       {isLoading ? (
                         <p className="text-center" style={{padding: '40px'}}>Cargando productos...</p>
                       ) : (
@@ -395,7 +403,6 @@ function App() {
                   <Route path="/contact" element={<Contact />} />
                 </Routes>
               </main>
-              
               <footer className="tm-footer text-center">
                 <div className="tm-social">
                   <a href="https://instagram.com/la.redonda_sabrosa" target="_blank" className="tm-social-link" rel="noopener noreferrer"><i className="fab fa-instagram"></i></a>
@@ -408,7 +415,6 @@ function App() {
             </div>
           } />
         </Routes>
-        
         {showPaymentModal && (
           <div className="payment-modal-overlay">
             <div className="payment-modal">
