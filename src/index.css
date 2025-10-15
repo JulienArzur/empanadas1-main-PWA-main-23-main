@@ -2784,3 +2784,53 @@ address {
   font-size: 0.7rem; font-weight: bold; padding: 2px 6px;
   border-radius: 4px; margin-top: 5px; max-width: fit-content;
 }
+
+/* ========================================================= */
+/* ===== AJUSTE RESPONSIVE PARA LA BARRA DE NAVEGACIÓN ===== */
+/* ========================================================= */
+
+/* En pantallas de 767px de ancho o menos (celulares) */
+@media (max-width: 767px) {
+  
+  /* 1. Hacemos que la barra principal se comporte como una columna */
+  .tm-header-bar {
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center;    /* Centra todo horizontalmente */
+    padding-bottom: 15px;
+    gap: 15px;              /* Añade un espacio entre los links y los botones */
+  }
+
+  /* 2. Hacemos que la lista de links ocupe todo el ancho */
+  .tm-header-bar .tm-nav-ul {
+    order: 2; /* Manda los links de navegación debajo de los botones */
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* 3. Agrupamos los botones de QR y Carrito */
+  .tm-header-bar > .scan-qr-btn {
+    order: 1; /* Pone el botón de QR primero */
+    margin-right: 0; /* Quitamos el margen derecho que tenía */
+  }
+
+  .tm-header-bar > .cart-icon {
+    order: 1; /* Pone el ícono del carrito también primero */
+  }
+  
+  /* Creamos un contenedor imaginario para los botones */
+  .tm-header-bar > .scan-qr-btn,
+  .tm-header-bar > .cart-icon {
+    display: inline-block; /* Aseguramos que se comporten bien */
+  }
+
+  /* (Opcional) Hacemos el texto de los links un poco más chico para asegurar que entren */
+  .tm-nav-link {
+    font-size: 1.1rem;
+    padding: 10px 15px;
+  }
+}
+
+/* Un pequeño ajuste para que los íconos a la derecha no se peguen */
+.tm-header-bar > .cart-icon {
+  margin-left: 15px;
+}
