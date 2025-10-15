@@ -2926,3 +2926,139 @@ address {
   font-size: 0.7rem; font-weight: bold; padding: 2px 6px;
   border-radius: 4px; margin-top: 5px; max-width: fit-content;
 }
+
+/* ==================================================================== */
+/* ===== ESTILOS DEFINITIVOS PARA EL PANEL DE ADMINISTRACIÓN (PC Y CELULAR) ===== */
+/* ==================================================================== */
+
+/* --- LAYOUT PRINCIPAL (PARA PC) --- */
+.admin-crud-container {
+  display: grid;
+  grid-template-columns: 350px 1fr; /* Columna izquierda para el form, el resto para la tabla */
+  gap: 30px;
+  align-items: start;
+}
+
+.admin-form-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  position: sticky; /* Para que el formulario se quede fijo al scrollear */
+  top: 20px;
+}
+.admin-form-card h3, .admin-table-card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+.admin-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.admin-form-card input, .admin-form-card select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+.form-actions button {
+  flex-grow: 1;
+}
+
+/* --- ESTILOS BASE (PARA PC) DE LA TABLA --- */
+.admin-table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.admin-table-card table thead {
+  display: table-header-group;
+  background-color: #f8f9fa;
+}
+.admin-table-card table tr { display: table-row; }
+.admin-table-card table td, .admin-table-card table th {
+  display: table-cell; text-align: left;
+  padding: 15px; vertical-align: middle;
+  border-bottom: 1px solid #ddd;
+}
+.admin-table-card table td:before { content: ""; display: none; }
+.admin-product-img { max-width: 60px; border-radius: 4px; }
+.admin-actions { display: flex; gap: 10px; }
+
+
+/* --- ESTILOS RESPONSIVE (PARA CELULAR) --- */
+@media (max-width: 992px) {
+
+  /* El layout principal se convierte en una sola columna */
+  .admin-crud-container {
+    grid-template-columns: 1fr;
+  }
+  .admin-form-card {
+    position: static; /* Quitamos el sticky en celular */
+  }
+  
+  /* Header del Admin */
+  .admin-header {
+    flex-direction: column; align-items: flex-start; gap: 15px;
+  }
+  .admin-header-left {
+    flex-direction: column; align-items: flex-start; gap: 10px;
+  }
+  .admin-nav { padding-left: 0; }
+  
+  /* --- Transformación de la Tabla a Tarjetas --- */
+/* --- Transformación de la Tabla a Tarjetas (CÓDIGO CORREGIDO Y FINAL) --- */
+  .admin-table-card table thead { 
+    display: none; 
+  }
+
+  .admin-table-card table tr {
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+  }
+
+  .admin-table-card table td {
+    display: flex; /* ¡LA CLAVE! Usamos flexbox para alinear */
+    justify-content: space-between; /* El label a la izq, el valor a la der */
+    align-items: center;
+    text-align: right; /* El valor del dato se alinea a la derecha */
+    padding: 12px 0;
+    position: relative;
+    border-bottom: 1px solid #eee;
+  }
+
+  .admin-table-card table td:last-of-type {
+    border-bottom: none;
+    padding-top: 15px;
+    padding-bottom: 0;
+  }
+  
+  /* El "label" (ej: "Nombre:") */
+  .admin-table-card table td:before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: left;
+    padding-right: 15px; /* Espacio entre el label y el valor */
+  }
+
+  /* Ocultamos el label para la celda de acciones */
+  .admin-table-card td[data-label="Acciones"]:before {
+    content: "";
+  }
+  
+  /* Y alineamos los botones a la derecha */
+  .admin-table-card td[data-label="Acciones"] .admin-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
