@@ -2835,9 +2835,9 @@ address {
   margin-left: 15px;
 }
 
-/* ============================================= */
-/* ===== ESTILOS PARA EL ESCÁNER QR (Estilo Simple) ===== */
-/* ============================================= */
+/* ============================================================= */
+/* ===== ESTILOS CORREGIDOS PARA EL ESCÁNER QR (Cuadrado) ===== */
+/* ============================================================= */
 
 /* Botón para abrir el escáner (sin cambios) */
 .scan-qr-btn {
@@ -2848,111 +2848,76 @@ address {
 .scan-qr-btn:hover { background-color: rgba(255, 255, 255, 0.9); color: #000; }
 .tm-header-bar > div:last-child { display: flex; align-items: center; }
 
-/* Overlay oscuro del escáner (ligeramente más claro que el anterior) */
+/* Overlay oscuro del escáner (sin cambios) */
 .qr-scanner-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.7); /* Menos oscuro */
+  background: rgba(0, 0, 0, 0.7);
   display: flex; justify-content: center; align-items: center;
   z-index: 1001;
 }
 
-/* Contenedor principal del escáner (ahora con un fondo blanco y sombra) */
+/* Contenedor principal del escáner (sin cambios) */
 .qr-scanner-container.simple-style {
-  background: white; /* Fondo blanco */
-  padding: 30px; /* Más padding */
-  border-radius: 12px; /* Esquinas más redondeadas */
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra elegante */
-  text-align: center;
-  width: 90%;
-  max-width: 450px; /* Un poco más ancho */
-  color: #333; /* Color de texto oscuro */
+  background: white; padding: 30px; border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); text-align: center;
+  width: 90%; max-width: 450px; color: #333;
 }
 .qr-scanner-container.simple-style p {
-  font-size: 1.4rem; /* Más grande */
-  margin-bottom: 25px; /* Más espacio */
-  color: #333; /* Texto oscuro */
-  font-weight: 600; /* Más negrita */
+  font-size: 1.4rem; margin-bottom: 25px; color: #333; font-weight: 600;
 }
 
-/* Contenedor del visor de la cámara y los botones de html5-qrcode */
+/* ======================================================= */
+/* ===== AQUÍ ESTÁ LA CORRECCIÓN PARA EL CUADRADO ===== */
+/* ======================================================= */
+/* Contenedor del visor de la cámara */
 #qr-reader-container.qr-reader-minimal {
   width: 100%;
-  height: 300px; /* Altura fija para un aspecto consistente */
-  border: 1px solid #ddd; /* Borde sutil */
-  border-radius: 8px; /* Esquinas redondeadas */
-  overflow: hidden; /* Asegura que la cámara no se desborde */
-  margin: 0 auto; /* Centrar */
-  display: flex; /* Para centrar contenido interno */
-  justify-content: center;
-  align-items: center;
-  background-color: #f8f8f8; /* Fondo claro mientras carga */
-  position: relative; /* Para posicionar elementos internos de html5-qrcode */
+  aspect-ratio: 1 / 1; /* LA CLAVE: Forza a que el contenedor sea siempre un cuadrado */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative; /* Necesario para que el video se posicione bien adentro */
+  background-color: #f8f8f8;
 }
 
-/* Estilos para el texto y los iconos dentro del área de la cámara antes de iniciar */
-#qr-reader-container.qr-reader-minimal div {
-  color: #666; /* Color de texto por defecto */
-  font-size: 1rem;
-}
-#qr-reader-container.qr-reader-minimal div:first-child { /* El ícono del celular */
-  font-size: 3rem;
-  margin-bottom: 10px;
+/* El video de la cámara ahora llenará el cuadrado perfecto */
+#qr-reader-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* La cámara llena el espacio sin deformarse */
 }
 
-/* Estilos para los botones generados por html5-qrcode */
-/* "Request Camera Permissions" y "Scan an Image File" */
+/* Estilos para los botones generados por html5-qrcode (sin cambios) */
 #qr-reader-container.qr-reader-minimal button {
-  background-color: #f7a049; /* Naranja de tu botón Cancelar */
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 25px; /* Botones más redondeados (pastilla) */
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 10px 5px; /* Espacio entre ellos */
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f7a049; color: white; border: none;
+  padding: 12px 25px; border-radius: 25px; font-size: 1.1rem;
+  font-weight: bold; cursor: pointer; margin: 10px 5px;
+  transition: background-color 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 #qr-reader-container.qr-reader-minimal button:hover {
-  background-color: #e0903b; /* Naranja más oscuro al pasar el mouse */
+  background-color: #e0903b;
 }
-
-/* Estilo para los links generados por html5-qrcode (Scan an Image File) */
 #qr-reader-container.qr-reader-minimal a {
-  color: #f7a049; /* Naranja de tu botón Cancelar */
-  text-decoration: none;
-  font-weight: 600;
-  margin-top: 10px;
-  display: inline-block; /* Para aplicar márgenes y otros estilos */
-  transition: color 0.3s ease;
+  color: #f7a049; text-decoration: none; font-weight: 600;
+  margin-top: 10px; display: inline-block; transition: color 0.3s ease;
 }
 #qr-reader-container.qr-reader-minimal a:hover {
-  color: #e0903b; /* Naranja más oscuro al pasar el mouse */
-  text-decoration: underline;
+  color: #e0903b; text-decoration: underline;
 }
 
-/* El botón de Cancelar del modal, para que tenga el mismo estilo */
+/* El botón de Cancelar del modal (sin cambios) */
 .btn-cerrar {
-  background-color: #f7a049;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 25px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 25px; /* Más espacio */
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f7a049; color: white; border: none;
+  padding: 12px 25px; border-radius: 25px; font-size: 1.1rem;
+  font-weight: bold; cursor: pointer; margin-top: 25px;
+  transition: background-color 0.3s ease; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .btn-cerrar:hover {
   background-color: #e0903b;
-}
-
-/* Ocultar el 'i' de información si no lo quieres */
-#qr-reader-container.qr-reader-minimal .html5-qrcode-content div[title="html5-qrcode.min.js"] {
-  display: none !important;
 }
 
 /* Etiqueta de descuento en el carrito (sin cambios) */
