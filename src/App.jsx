@@ -58,7 +58,7 @@ function App() {
     const handleScroll = () => {
       if (!navbarRef.current) return;
       const rect = navbarRef.current.getBoundingClientRect();
-      const cartIcon = document.querySelector('.cart-icon');
+      const cartIcon = document.querySelector('.cart-icon, .cart-close-icon');
       if (rect.bottom < 0) {
         cartIcon?.classList.add('fixed-mobile');
       } else {
@@ -113,13 +113,18 @@ function App() {
 
   const increaseQuantity = (id) => {
     const itemInCart = cart.find(cartItem => cartItem.id === id);
-    if (itemInCart && (itemInCart.isPromo || itemInCart.isDiscounted)) {
-        alert("Para cambiar este item, elimínalo y vuelve a agregarlo.");
+    if (!itemInCart) return;
+
+    if (itemInCart.isPromo) {
+        alert("Para cambiar la promo, elimínala y vuelve a agregarla.");
         return;
     }
-    const productInStock = products.find(p => p.id === id);
-    if (productInStock && itemInCart && productInStock.stock > itemInCart.quantity) {
-      setCart((prevCart) => prevCart.map((item) => item.id === id ? { ...item, quantity: (item.quantity || 1) + 1 } : item));
+    
+    const originalProductId = itemInCart.isDiscounted ? id.split('-')[0] : id;
+    const productInStock = products.find(p => p.id === originalProductId);
+
+    if (productInStock && productInStock.stock > itemInCart.quantity) {
+      setCart(prevCart => prevCart.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
     } else {
       alert("No hay más stock disponible para este producto.");
     }
@@ -127,11 +132,19 @@ function App() {
 
   const decreaseQuantity = (id) => {
     const itemInCart = cart.find(cartItem => cartItem.id === id);
-    if (itemInCart && (itemInCart.isPromo || itemInCart.isDiscounted)) {
+    if (!itemInCart) return;
+    
+    if (itemInCart.isPromo && itemInCart.quantity === 1) {
         setCart(prevCart => prevCart.filter(item => item.id !== id));
         return;
     }
-    setCart((prevCart) => prevCart.map((item) => item.id === id ? { ...item, quantity: (item.quantity || 1) - 1 } : item).filter(item => item.quantity > 0));
+
+    if (itemInCart.isDiscounted && itemInCart.quantity === 1) {
+      setCart(prevCart => prevCart.filter(item => item.id !== id));
+      return;
+    }
+
+    setCart(prevCart => prevCart.map(item => item.id === id ? { ...item, quantity: item.quantity - 1 } : item).filter(item => item.quantity > 0));
   };
 
   const removeFromCart = (id) => {
@@ -227,43 +240,30 @@ function App() {
     };
     setCart(prevCart => [...prevCart, promoInCart]);
   };
-
-  // =======================================================
-  // ===== AQUÍ ESTÁ LA CORRECCIÓN CONTRA LA PANTALLA NARANJA =====
-  // =======================================================
+  
   const handleScan = (productId) => {
     setIsScannerOpen(false);
     const product = products.find(p => p.id === productId);
 
-    // Verificación 1: ¿Encontramos el producto?
-    if (!product) {
-      alert("Producto no encontrado. El código QR no es válido.");
+    if (!product || typeof product.price !== 'number') {
+      alert("El código QR no es válido o el producto tiene un problema.");
       return;
     }
-
-    // Verificación 2: ¿El producto tiene un precio que sea un número?
-    if (typeof product.price !== 'number') {
-      alert(`El producto "${product.name}" tiene un problema con su precio y no se puede agregar.`);
-      console.error("Error de escaneo: el precio del producto no es un número.", product);
-      return;
+    
+    const existingItem = cart.find(item => item.isDiscounted && item.id.startsWith(productId));
+    
+    if (existingItem) {
+      increaseQuantity(existingItem.id);
+    } else {
+      const discountedPrice = product.price * 0.90;
+      const itemInCart = {
+        id: `${product.id}-${Date.now()}`, name: product.name || 'Producto sin nombre',
+        image: product.image || '', price: discountedPrice,
+        originalPrice: product.price, quantity: 1, isDiscounted: true,
+      };
+      setCart(prevCart => [...prevCart, itemInCart]);
     }
-
-    // Si todo está bien, creamos el producto para el carrito de forma segura
-    const discountedPrice = product.price * 0.90;
-
-    const itemInCart = {
-      // Solo incluimos las propiedades que necesitamos para evitar errores
-      id: `${product.id}-${Date.now()}`,
-      name: product.name || 'Producto sin nombre',
-      image: product.image || '',
-      price: discountedPrice,
-      originalPrice: product.price,
-      quantity: 1,
-      isDiscounted: true,
-      // No incluimos el resto de las propiedades del producto para no arrastrar posibles errores
-    };
-
-    setCart(prevCart => [...prevCart, itemInCart]);
+    
     setIsCartOpen(true);
   };
 
@@ -317,11 +317,7 @@ function App() {
             <div className="container">
               <div>
                 <div className="placeholder">
-                  <div
-                    className="parallax-window"
-                    data-parallax="scroll"
-                    data-image-src="https://assets.elgourmet.com/wp-content/uploads/2023/03/cover_fpa6sn8vqc_empanadas.jpg"
-                  >
+                  <div className="parallax-window" data-parallax="scroll" data-image-src="https://assets.elgourmet.com/wp-content/uploads/2023/03/cover_fpa6sn8vqc_empanadas.jpg">
                     <div className="tm-header">
                       <div className="row tm-header-inner align-items-center">
                         <div className="col-12 text-center">
@@ -338,14 +334,26 @@ function App() {
                               <li className="tm-nav-li"><Link to="/contact" className="tm-nav-link">Contacto</Link></li>
                             </ul>
                             
-                            <button className="scan-qr-btn" onClick={() => setIsScannerOpen(true)}>
-                              <i className="fas fa-qrcode"></i>
-                            </button>
-                            
-                            <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
-                              <img src="/cart-icon.png" alt="Carrito" />
-                              {cart.length > 0 && <span className="cart-count">{cart.reduce((total, item) => total + item.quantity, 0)}</span>}
+                            <div className="header-icons-container">
+                              <button className="scan-qr-btn" onClick={() => setIsScannerOpen(true)}>
+                                <i className="fas fa-qrcode"></i>
+                              </button>
+                              
+                              {/* ============================================== */}
+                              {/* ===== AQUÍ ESTÁ EL CAMBIO DE ÍCONO ===== */}
+                              {/* ============================================== */}
+                              {isCartOpen ? (
+                                <div className="cart-close-icon" onClick={() => setIsCartOpen(false)}>
+                                  &times;
+                                </div>
+                              ) : (
+                                <div className="cart-icon" onClick={() => setIsCartOpen(true)}>
+                                  <img src="/cart-icon.png" alt="Carrito" />
+                                  {cart.length > 0 && <span className="cart-count">{cart.reduce((total, item) => total + item.quantity, 0)}</span>}
+                                </div>
+                              )}
                             </div>
+
                           </div>
                         </div>
                       </div>

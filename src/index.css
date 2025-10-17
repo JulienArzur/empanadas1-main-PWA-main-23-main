@@ -3062,3 +3062,52 @@ address {
   }
 }
 
+
+/* =================================================== */
+/* ===== ESTILOS PARA EL BOTÓN DE CERRAR EN MÓVIL ===== */
+/* =================================================== */
+
+.mobile-close-btn {
+  display: none; /* Oculto por defecto en pantallas grandes */
+  width: 100%;
+  margin-top: 10px;
+  background-color: #6c757d; /* Un color secundario, gris */
+  padding: 12px;
+  font-size: 1.1rem;
+}
+
+.mobile-close-btn:hover {
+  background-color: #5a6268;
+}
+
+/* Solo se muestra en pantallas de 768px o menos */
+@media (max-width: 768px) {
+  .mobile-close-btn {
+    display: block;
+  }
+}
+
+/* =================================================== */
+/* ===== ESTILOS PARA INTERCAMBIO DE ÍCONO DE CARRITO ===== */
+/* =================================================== */
+
+/* Contenedor para los íconos de la derecha */
+.header-icons-container {
+  display: flex;
+  align-items: center;
+}
+
+/* El nuevo ícono de 'X' para cerrar */
+.cart-close-icon {
+  color: white;
+  font-size: 2.5rem; /* Tamaño grande y fácil de tocar */
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 10px;
+  transition: transform 0.2s ease;
+}
+
+.cart-close-icon:hover {
+  transform: scale(1.2); /* Efecto sutil al pasar el mouse */
+}
