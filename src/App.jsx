@@ -16,8 +16,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminLayout from './pages/admin/AdminLayout';
 import PromoModal from './PromoModal';
 import CartPanel from './CartPanel';
-
-// AÑADIDO: Importamos el nuevo componente de escáner.
 import QRScanner from './QRScanner';
 
 
@@ -38,8 +36,6 @@ function App() {
   const [couponCode, setCouponCode] = useState('');
   const [discount, setDiscount] = useState(0);
   const [couponApplied, setCouponApplied] = useState(false);
-
-  // AÑADIDO: Estado para controlar la visibilidad del escáner QR.
   const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   useEffect(() => {
@@ -232,22 +228,43 @@ function App() {
     setCart(prevCart => [...prevCart, promoInCart]);
   };
 
-  // AÑADIDO: Nueva función que se ejecuta cuando el escáner detecta un QR.
+  // =======================================================
+  // ===== AQUÍ ESTÁ LA CORRECCIÓN CONTRA LA PANTALLA NARANJA =====
+  // =======================================================
   const handleScan = (productId) => {
     setIsScannerOpen(false);
     const product = products.find(p => p.id === productId);
-    if (product) {
-      const discountedPrice = product.price * 0.90;
-      const itemInCart = {
-        ...product, id: `${product.id}-${Date.now()}`,
-        originalPrice: product.price, price: discountedPrice,
-        quantity: 1, isDiscounted: true,
-      };
-      setCart(prevCart => [...prevCart, itemInCart]);
-      setIsCartOpen(true);
-    } else {
+
+    // Verificación 1: ¿Encontramos el producto?
+    if (!product) {
       alert("Producto no encontrado. El código QR no es válido.");
+      return;
     }
+
+    // Verificación 2: ¿El producto tiene un precio que sea un número?
+    if (typeof product.price !== 'number') {
+      alert(`El producto "${product.name}" tiene un problema con su precio y no se puede agregar.`);
+      console.error("Error de escaneo: el precio del producto no es un número.", product);
+      return;
+    }
+
+    // Si todo está bien, creamos el producto para el carrito de forma segura
+    const discountedPrice = product.price * 0.90;
+
+    const itemInCart = {
+      // Solo incluimos las propiedades que necesitamos para evitar errores
+      id: `${product.id}-${Date.now()}`,
+      name: product.name || 'Producto sin nombre',
+      image: product.image || '',
+      price: discountedPrice,
+      originalPrice: product.price,
+      quantity: 1,
+      isDiscounted: true,
+      // No incluimos el resto de las propiedades del producto para no arrastrar posibles errores
+    };
+
+    setCart(prevCart => [...prevCart, itemInCart]);
+    setIsCartOpen(true);
   };
 
   const empanadasData = Array.isArray(products) ? products.filter(item => item.category === 'empanadas') : [];
@@ -280,7 +297,6 @@ function App() {
           handlePurchase={handlePurchaseAndStockUpdate}
         />
         
-        {/* AÑADIDO: Renderizado del nuevo escáner QR. */}
         <QRScanner
           isOpen={isScannerOpen}
           onClose={() => setIsScannerOpen(false)}
@@ -322,7 +338,6 @@ function App() {
                               <li className="tm-nav-li"><Link to="/contact" className="tm-nav-link">Contacto</Link></li>
                             </ul>
                             
-                            {/* AÑADIDO: Botón para abrir el escáner QR. */}
                             <button className="scan-qr-btn" onClick={() => setIsScannerOpen(true)}>
                               <i className="fas fa-qrcode"></i>
                             </button>
