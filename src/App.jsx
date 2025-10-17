@@ -110,7 +110,7 @@ function App() {
       alert("No hay más stock disponible para este producto.");
     }
   };
-
+  
   const increaseQuantity = (id) => {
     const itemInCart = cart.find(cartItem => cartItem.id === id);
     if (!itemInCart) return;
@@ -240,26 +240,44 @@ function App() {
     };
     setCart(prevCart => [...prevCart, promoInCart]);
   };
-  
+
+  // ===================================================================
+  // ===== CORRECCIÓN DEFINITIVA A PRUEBA DE BALAS (PANTALLA NARANJA) =====
+  // ===================================================================
   const handleScan = (productId) => {
     setIsScannerOpen(false);
     const product = products.find(p => p.id === productId);
 
-    if (!product || typeof product.price !== 'number') {
-      alert("El código QR no es válido o el producto tiene un problema.");
+    // 1. Verificación: ¿El producto existe?
+    if (!product) {
+      alert("El código QR no es válido o el producto ya no existe.");
       return;
     }
-    
+
+    // 2. Verificación y "Limpieza" del Precio:
+    //    Convertimos el precio a número y verificamos que no sea un error (NaN).
+    const priceAsNumber = Number(product.price);
+    if (isNaN(priceAsNumber)) {
+      alert(`El producto "${product.name}" tiene un problema con sus datos y no se puede agregar.`);
+      console.error("Error de QR: El precio del producto no es un número válido.", product);
+      return;
+    }
+
+    // Si todo está bien, continuamos...
     const existingItem = cart.find(item => item.isDiscounted && item.id.startsWith(productId));
     
     if (existingItem) {
       increaseQuantity(existingItem.id);
     } else {
-      const discountedPrice = product.price * 0.90;
+      const discountedPrice = priceAsNumber * 0.90;
       const itemInCart = {
-        id: `${product.id}-${Date.now()}`, name: product.name || 'Producto sin nombre',
-        image: product.image || '', price: discountedPrice,
-        originalPrice: product.price, quantity: 1, isDiscounted: true,
+        id: `${product.id}-${Date.now()}`,
+        name: product.name || 'Producto sin nombre',
+        image: product.image || '',
+        price: discountedPrice,
+        originalPrice: priceAsNumber, // Guardamos el precio ya convertido a número
+        quantity: 1,
+        isDiscounted: true,
       };
       setCart(prevCart => [...prevCart, itemInCart]);
     }
@@ -339,9 +357,6 @@ function App() {
                                 <i className="fas fa-qrcode"></i>
                               </button>
                               
-                              {/* ============================================== */}
-                              {/* ===== AQUÍ ESTÁ EL CAMBIO DE ÍCONO ===== */}
-                              {/* ============================================== */}
                               {isCartOpen ? (
                                 <div className="cart-close-icon" onClick={() => setIsCartOpen(false)}>
                                   &times;
